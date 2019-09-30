@@ -1,6 +1,20 @@
 import Link from 'next/link';
+import Router from 'next/router';
 import styled from 'styled-components';
+import NProgress from 'nprogress';
 import Nav from './Nav';
+
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+
+Router.onRouteChangeComplete = () => {
+  NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
 
 const Header = () => (
   <StyledHeader>
@@ -44,7 +58,7 @@ const Logo = styled.h1`
   position: relative;
   z-index: 2;
   font-family: ${(props) => props.theme.logoFontFamily};
-  font-display: fallback;
+  font-weight: normal;
 
   a {
     padding: 0.5rem 1rem;

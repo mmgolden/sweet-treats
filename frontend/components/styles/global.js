@@ -17,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.5rem;
     line-height: 2;
     font-family: ${(props) => props.theme.primaryFontFamily};
-    font-display: fallback;
   }
   a {
     text-decoration: none;
