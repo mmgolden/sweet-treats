@@ -1,5 +1,9 @@
+import Items from '../components/Items';
+
 const Home = () => (
-  <p>Home</p>
+  <div>
+    <Items />
+  </div>
 );
 
 export default Home;
