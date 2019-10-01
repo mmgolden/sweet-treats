@@ -25,8 +25,8 @@ const Item = ({
         <a>{title}</a>
       </Link>
     </Title>
-    <PriceTag>{formatMoney(price)}</PriceTag>
     <p>{description}</p>
+    <PriceTag>{formatMoney(price)}</PriceTag>
     <div className="buttonList">
       <Link href={{
         pathname: '/update',
