@@ -2,8 +2,7 @@ import { useState } from 'react';
 import Router from 'next/router';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import Form from './styles/Form';
-import ErrorMessage from './ErrorMessage';
+import CreateItemForm from './CreateItemForm';
 
 export const CREATE_ITEM_MUTATON = gql`
   mutation CREATE_ITEM_MUTATON(
@@ -64,73 +63,30 @@ const CreateItem = () => {
 
   if (loading) return 'Loading...';
 
+  const variables = {
+    image: file.image,
+    largeImage: file.largeImage,
+    title,
+    price,
+    description,
+  };
+
   return (
-    <Form onSubmit={(e) => {
-      e.preventDefault();
-      createItem({
-        variables: {
-          image: file.image,
-          largeImage: file.largeImage,
-          title,
-          price,
-          description,
-        },
-      });
-    }}
-    >
-      <ErrorMessage error={error} />
-      <fieldset disabled={loading} aria-busy={loading}>
-        <label htmlFor="file">
-          Image
-          <input
-            type="file"
-            id="file"
-            name="file"
-            placeholder="Upload an image"
-            onChange={(e) => uploadFile(e, setFile)}
-            required
-          />
-          {file.image && <img src={file.image} alt="Upload preview" />}
-        </label>
-        <label htmlFor="title">
-          Title
-          <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </label>
-        <label htmlFor="price">
-          Price
-          <input
-            type="number"
-            id="price"
-            name="price"
-            placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-        </label>
-        <label htmlFor="description">
-          Description
-          <textarea
-            type="text"
-            id="description"
-            name="description"
-            placeholder="Enter a description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Submit</button>
-      </fieldset>
-    </Form>
+    <CreateItemForm
+      createItem={createItem}
+      variables={variables}
+      error={error}
+      loading={loading}
+      uploadFile={uploadFile}
+      setFile={setFile}
+      file={file}
+      title={title}
+      setTitle={setTitle}
+      price={price}
+      setPrice={setPrice}
+      description={description}
+      setDescription={setDescription}
+    />
   );
 };
 
