@@ -3,7 +3,6 @@ import Router from 'next/router';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Form from './styles/Form';
-// import formatMoney from '../lib/formatMoney';
 import ErrorMessage from './ErrorMessage';
 
 export const CREATE_ITEM_MUTATON = gql`
