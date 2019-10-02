@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import Form from './styles/Form';
-import ErrorMessage from './ErrorMessage';
 import { removeEmptyStrings } from './helpers';
+import UpdateItemForm from './UpdateItemForm';
 
 export const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -65,49 +64,16 @@ const UpdateItem = ({ id }) => {
   });
 
   return (
-    <Form onSubmit={(e) => {
-      e.preventDefault();
-      updateItem({ variables: { ...variables } });
-    }}
-    >
-      <ErrorMessage error={mutationError} />
-      <fieldset disabled={mutationLoading} aria-busy={mutationLoading}>
-        <label htmlFor="title">
-          Title
-          <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Title"
-            defaultValue={data.item.title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-        <label htmlFor="price">
-          Price
-          <input
-            type="number"
-            id="price"
-            name="price"
-            placeholder="Price"
-            defaultValue={data.item.price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </label>
-        <label htmlFor="description">
-          Description
-          <textarea
-            type="text"
-            id="description"
-            name="description"
-            placeholder="Enter a description"
-            defaultValue={data.item.description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </label>
-        <button type="submit">Save changes</button>
-      </fieldset>
-    </Form>
+    <UpdateItemForm
+      updateItem={updateItem}
+      variables={variables}
+      mutationError={mutationError}
+      mutationLoading={mutationLoading}
+      item={data.item}
+      setTitle={setTitle}
+      setPrice={setPrice}
+      setDescription={setDescription}
+    />
   );
 };
 
