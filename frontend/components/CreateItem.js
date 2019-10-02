@@ -26,7 +26,27 @@ export const CREATE_ITEM_MUTATON = gql`
   }
 `;
 
+const uploadFile = async (e, setFile) => {
+  const { files } = e.target;
+  const data = new FormData();
+  data.append('file', files[0]);
+  data.append('upload_preset', 'sweettreats');
+
+  const res = await fetch('https://api.cloudinary.com/v1_1/melindagolden/image/upload', {
+    method: 'POST',
+    body: data,
+  });
+
+  const file = await res.json();
+
+  setFile({
+    image: file.secure_url,
+    largeImage: file.eager[0].secure_url,
+  });
+};
+
 const CreateItem = () => {
+  const [file, setFile] = useState({});
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -50,6 +70,8 @@ const CreateItem = () => {
       e.preventDefault();
       createItem({
         variables: {
+          image: file.image,
+          largeImage: file.largeImage,
           title,
           price,
           description,
@@ -59,6 +81,18 @@ const CreateItem = () => {
     >
       <ErrorMessage error={error} />
       <fieldset disabled={loading} aria-busy={loading}>
+        <label htmlFor="file">
+          Image
+          <input
+            type="file"
+            id="file"
+            name="file"
+            placeholder="Upload an image"
+            onChange={(e) => uploadFile(e, setFile)}
+            required
+          />
+          {file.image && <img src={file.image} alt="Upload preview" />}
+        </label>
         <label htmlFor="title">
           Title
           <input

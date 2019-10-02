@@ -42,6 +42,10 @@ const Form = styled.form`
       opacity: 0.5;
     }
   }
+  img {
+    width: 200px;
+    margin-top: 10px;
+  }
 `;
 
 export default Form;
