@@ -1,16 +1,4 @@
-import styled, { keyframes } from 'styled-components';
-
-const loading = keyframes`
-  from {
-    background-position: 0 0;
-    /* rotate: 0; */
-  }
-
-  to {
-    background-position: 100% 100%;
-    /* rotate: 360deg; */
-  }
-`;
+import styled from 'styled-components';
 
 const Form = styled.form`
   background: rgba(0, 0, 0, 0.02);
@@ -39,7 +27,7 @@ const Form = styled.form`
   button,
   input[type='submit'] {
     width: auto;
-    background: red;
+    background: ${(props) => props.theme.primaryColor};
     color: white;
     border: 0;
     font-size: 2rem;
@@ -52,10 +40,6 @@ const Form = styled.form`
 
     &[disabled] {
       opacity: 0.5;
-    }
-    &[aria-busy='true']::before {
-      background-size: 50% auto;
-      animation: ${loading} 0.5s linear infinite;
     }
   }
 `;
