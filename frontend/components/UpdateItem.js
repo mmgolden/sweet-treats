@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Router from 'next/router';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
+import { removeEmptyStrings } from './helpers';
 
 export const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -47,34 +47,27 @@ const UpdateItem = ({ id }) => {
     { variables: { id } },
   );
 
-  const [updateItem, { loading: mutationLoading, error: mutationError }] = useMutation(
-    UPDATE_ITEM_MUTATION,
-    {
-      onCompleted({ updateItem: { id: updatedItemId } }) {
-        Router.push({
-          pathname: '/item',
-          query: { id: updatedItemId },
-        });
-      },
-    },
-  );
+  const [
+    updateItem,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(UPDATE_ITEM_MUTATION);
 
   if (queryLoading) return 'Loading...';
   if (queryError) return `Error! ${queryError.message}`;
 
   if (!data.item) return <p>No item found</p>;
 
+  const variables = removeEmptyStrings({
+    id,
+    title,
+    price,
+    description,
+  });
+
   return (
     <Form onSubmit={(e) => {
       e.preventDefault();
-      updateItem({
-        variables: {
-          id,
-          title,
-          price,
-          description,
-        },
-      });
+      updateItem({ variables: { ...variables } });
     }}
     >
       <ErrorMessage error={mutationError} />
