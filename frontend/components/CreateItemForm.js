@@ -2,27 +2,17 @@ import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
 
 const CreateItemForm = ({
-  createItem,
-  variables,
+  handleSubmit,
   error,
   loading,
-  uploadFile,
-  setFile,
   file,
   title,
-  setTitle,
   price,
-  setPrice,
   description,
-  setDescription,
+  dispatch,
+  uploadFile,
 }) => (
-  <Form onSubmit={(e) => {
-    e.preventDefault();
-    createItem({
-      variables: { ...variables },
-    });
-  }}
-  >
+  <Form onSubmit={handleSubmit}>
     <ErrorMessage error={error} />
     <fieldset disabled={loading} aria-busy={loading}>
       <label htmlFor="file">
@@ -32,7 +22,10 @@ const CreateItemForm = ({
           id="file"
           name="file"
           placeholder="Upload an image"
-          onChange={(e) => uploadFile(e, setFile)}
+          onChange={async (e) => {
+            const imageFiles = await uploadFile(e);
+            dispatch({ type: 'file', payload: imageFiles });
+          }}
           required
         />
         {file.image && <img src={file.image} alt="Upload preview" />}
@@ -45,7 +38,7 @@ const CreateItemForm = ({
           name="title"
           placeholder="Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => dispatch({ type: 'title', payload: e.target.value })}
           required
         />
       </label>
@@ -57,7 +50,7 @@ const CreateItemForm = ({
           name="price"
           placeholder="Price"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={(e) => dispatch({ type: 'price', payload: e.target.value })}
           required
         />
       </label>
@@ -69,7 +62,7 @@ const CreateItemForm = ({
           name="description"
           placeholder="Enter a description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => dispatch({ type: 'description', payload: e.target.value })}
           required
         />
       </label>
