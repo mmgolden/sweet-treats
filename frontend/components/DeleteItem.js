@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { ALL_ITEMS_QUERY } from './Items'; // eslint-disable-line
+import { ALL_ITEMS_QUERY } from './Items';
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DELETE_ITEM_MUTATION($id: ID!) {

@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import Item from './Item';
 
-const ALL_ITEMS_QUERY = gql`
+export const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY {
     items {
       id
@@ -44,4 +44,3 @@ const ItemsList = styled.div`
 `;
 
 export default Items;
-export { ALL_ITEMS_QUERY };
