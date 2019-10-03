@@ -2,20 +2,17 @@ import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
 
 const UpdateItemForm = ({
-  updateItem,
-  variables,
+  handleSubmit,
   mutationError,
   mutationLoading,
-  item,
-  setTitle,
-  setPrice,
-  setDescription,
+  item: {
+    title,
+    price,
+    description,
+  },
+  dispatch,
 }) => (
-  <Form onSubmit={(e) => {
-    e.preventDefault();
-    updateItem({ variables: { ...variables } });
-  }}
-  >
+  <Form onSubmit={handleSubmit}>
     <ErrorMessage error={mutationError} />
     <fieldset disabled={mutationLoading} aria-busy={mutationLoading}>
       <label htmlFor="title">
@@ -25,8 +22,8 @@ const UpdateItemForm = ({
           id="title"
           name="title"
           placeholder="Title"
-          defaultValue={item.title}
-          onChange={(e) => setTitle(e.target.value)}
+          defaultValue={title}
+          onChange={(e) => dispatch({ type: 'title', payload: e.target.value })}
         />
       </label>
       <label htmlFor="price">
@@ -36,8 +33,8 @@ const UpdateItemForm = ({
           id="price"
           name="price"
           placeholder="Price"
-          defaultValue={item.price}
-          onChange={(e) => setPrice(e.target.value)}
+          defaultValue={price}
+          onChange={(e) => dispatch({ type: 'price', payload: e.target.value })}
         />
       </label>
       <label htmlFor="description">
@@ -47,8 +44,8 @@ const UpdateItemForm = ({
           id="description"
           name="description"
           placeholder="Enter a description"
-          defaultValue={item.description}
-          onChange={(e) => setDescription(e.target.value)}
+          defaultValue={description}
+          onChange={(e) => dispatch({ type: 'description', payload: e.target.value })}
         />
       </label>
       <button type="submit">Save changes</button>

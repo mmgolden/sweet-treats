@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { removeEmptyStrings } from './helpers';
+import { removeEmptyStrings, reducer } from './helpers';
 import UpdateItemForm from './UpdateItemForm';
 
 export const SINGLE_ITEM_QUERY = gql`
@@ -37,9 +37,13 @@ export const UPDATE_ITEM_MUTATION = gql`
 `;
 
 const UpdateItem = ({ id }) => {
-  const [title, setTitle] = useState('');
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
+  const initialState = {
+    title: '',
+    price: '',
+    description: '',
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const { loading: queryLoading, error: queryError, data } = useQuery(
     SINGLE_ITEM_QUERY,
@@ -56,23 +60,21 @@ const UpdateItem = ({ id }) => {
 
   if (!data.item) return <p>No item found</p>;
 
-  const variables = removeEmptyStrings({
-    id,
-    title,
-    price,
-    description,
-  });
-
   return (
     <UpdateItemForm
-      updateItem={updateItem}
-      variables={variables}
+      handleSubmit={(e) => {
+        e.preventDefault();
+        updateItem({
+          variables: removeEmptyStrings({
+            ...state,
+            id,
+          }),
+        });
+      }}
       mutationError={mutationError}
       mutationLoading={mutationLoading}
       item={data.item}
-      setTitle={setTitle}
-      setPrice={setPrice}
-      setDescription={setDescription}
+      dispatch={dispatch}
     />
   );
 };
