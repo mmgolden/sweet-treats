@@ -4,4 +4,4 @@ export const removeEmptyStrings = (input) => Object.keys(input).reduce((inputVar
   return inputVariables;
 }, {});
 
-export const foo = () => {};
+export const reducer = (state, { type, payload }) => ({ ...state, [type]: payload });

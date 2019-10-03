@@ -3,6 +3,7 @@ import Router from 'next/router';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import CreateItemForm from './CreateItemForm';
+import { reducer } from './helpers';
 
 export const CREATE_ITEM_MUTATON = gql`
   mutation CREATE_ITEM_MUTATON(
@@ -41,21 +42,6 @@ const uploadFile = async (e) => {
     image: file.secure_url,
     largeImage: file.eager[0].secure_url,
   };
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'file':
-      return { ...state, file: action.payload };
-    case 'title':
-      return { ...state, title: action.payload };
-    case 'price':
-      return { ...state, price: action.payload };
-    case 'description':
-      return { ...state, description: action.payload };
-    default:
-      throw new Error();
-  }
 };
 
 const CreateItem = () => {
