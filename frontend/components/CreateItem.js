@@ -68,16 +68,20 @@ const CreateItem = () => {
 
   if (loading) return 'Loading...';
 
+  const variables = {
+    ...state,
+    image: state.file.image,
+    largeImage: state.file.largeImage,
+  };
+
+  delete variables.file;
+
   return (
     <CreateItemForm
       handleSubmit={(e) => {
         e.preventDefault();
         createItem({
-          variables: {
-            ...state,
-            image: state.file.image,
-            largeImage: state.file.largeImage,
-          },
+          variables: { ...variables },
         });
       }}
       error={error}
