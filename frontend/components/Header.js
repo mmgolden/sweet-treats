@@ -26,20 +26,22 @@ const Header = () => (
       </Logo>
       <Nav />
     </div>
-    <div className="sub-bar">
+    {/* <div className="sub-bar">
       <p>Search</p>
     </div>
-    <div>Cart</div>
+    <div>Cart</div> */}
   </StyledHeader>
 );
 
 const StyledHeader = styled.header`
   .bar {
-    border-bottom: 10px solid ${(props) => props.theme.black};
     display: grid;
     grid-template-columns: auto 1fr;
     justify-content: space-between;
     align-items: stretch;
+    background: white;
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+
     @media (max-width: 1300px) {
       grid-template-columns: 1fr;
       justify-content: center;

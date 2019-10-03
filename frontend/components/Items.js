@@ -55,9 +55,13 @@ const Center = styled.div`
 
 const ItemsList = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-gap: 60px;
   max-width: ${(props) => props.theme.maxWidth};
+
+  @media (min-width: 767px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 export default Items;
