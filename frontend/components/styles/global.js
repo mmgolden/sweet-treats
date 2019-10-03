@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-size: 10px;
+    overflow: hidden;
+    height: 100%;
   }
   *, *:before, *:after {
     box-sizing: inherit;
@@ -17,6 +19,8 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.5rem;
     line-height: 2;
     font-family: ${(props) => props.theme.primaryFontFamily};
+    height: 100%;
+    overflow: auto;
   }
   a {
     text-decoration: none;
