@@ -1,9 +1,10 @@
 import { useReducer } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { removeEmptyStrings, reducer } from './helpers';
+import removeEmptyStrings from '../lib/removeEmptyStrings';
 import UpdateItemForm from './UpdateItemForm';
 import { SINGLE_ITEM_QUERY } from './SingleItem';
+import reducer from '../lib/reducer';
 
 export const UPDATE_ITEM_MUTATION = gql`
   mutation UPDATE_ITEM_MUTATION(

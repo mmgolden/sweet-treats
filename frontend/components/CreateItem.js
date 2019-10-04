@@ -3,7 +3,7 @@ import Router from 'next/router';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import CreateItemForm from './CreateItemForm';
-import { reducer } from './helpers';
+import reducer from '../lib/reducer';
 
 export const CREATE_ITEM_MUTATON = gql`
   mutation CREATE_ITEM_MUTATON(
