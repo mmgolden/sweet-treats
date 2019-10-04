@@ -2,12 +2,12 @@ import { useReducer } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { reducer } from './helpers';
-import SignupForm from './SignupForm';
+import SigninForm from './SigninForm';
 import { CURRENT_USER_QUERY } from './User';
 
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-    signup(email: $email, name: $name, password: $password) {
+const SIGNIN_MUTATION = gql`
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
       id
       email
       name
@@ -15,27 +15,26 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-const Signup = () => {
+const Signin = () => {
   const initialState = {
-    name: '',
     email: '',
     password: '',
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [signup, { loading, error }] = useMutation(
-    SIGNUP_MUTATION,
+  const [signin, { loading, error }] = useMutation(
+    SIGNIN_MUTATION,
     {
       refetchQueries: [{ query: CURRENT_USER_QUERY }],
     },
   );
 
   return (
-    <SignupForm
+    <SigninForm
       handleSubmit={(e) => {
         e.preventDefault();
-        signup({
+        signin({
           variables: { ...state },
         });
       }}
@@ -47,4 +46,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Signin;
