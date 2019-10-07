@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { CURRENT_USER_QUERY } from './User';
+import { CURRENT_USER_QUERY } from '../hooks/useUserQuery';
 
 const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {

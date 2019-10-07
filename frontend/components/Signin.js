@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import SigninForm from './SigninForm';
-import { CURRENT_USER_QUERY } from './User';
+import { CURRENT_USER_QUERY } from '../hooks/useUserQuery';
 import reducer from '../lib/reducer';
 
 const SIGNIN_MUTATION = gql`

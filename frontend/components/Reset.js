@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
 import reducer from '../lib/reducer';
 import ResetForm from './ResetForm';
-import { CURRENT_USER_QUERY } from './User';
+import { CURRENT_USER_QUERY } from '../hooks/useUserQuery';
 
 const RESET_MUTATION = gql`
   mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
