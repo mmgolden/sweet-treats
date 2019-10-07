@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import NavStyles from './styles/NavStyles';
-import useUserQuery from './User';
+import useUserQuery from '../hooks/useUserQuery';
 import Signout from './Signout';
 
 const Nav = () => {
