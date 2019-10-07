@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import NavStyles from './styles/NavStyles';
 import useUserQuery from '../hooks/useUserQuery';
+import useToggleCart from '../hooks/useToggleCart';
 import Signout from './Signout';
 
 const Nav = () => {
   const { data = {} } = useUserQuery();
+
+  const [toggleCart] = useToggleCart();
 
   return (
     <NavStyles>
@@ -23,7 +26,7 @@ const Nav = () => {
             <a>Account</a>
           </Link>
           <Signout />
-          <p>{data.me.name}</p>
+          <button type="button" onClick={toggleCart}>My cart</button>
         </>
       ) : (
         <Link href="/signin">
