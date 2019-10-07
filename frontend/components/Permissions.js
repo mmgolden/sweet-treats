@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
+import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
 import Table from './styles/Table';
 
@@ -43,7 +45,7 @@ const Permissions = () => {
             </tr>
           </thead>
           <tbody>
-            {data.users.map((user) => <User user={user} key={user.id} />)}
+            {data.users.map((user) => <UserPermissions user={user} key={user.id} />)}
           </tbody>
         </Table>
       </div>
@@ -51,21 +53,59 @@ const Permissions = () => {
   );
 };
 
-const User = ({ user: { id, name, email } }) => (
-  <tr>
-    <td>{name}</td>
-    <td>{email}</td>
-    {possiblePermissions.map((permission) => (
-      <td key={`${id}-permission-${permission}`}>
-        <label htmlFor={`${id}-permission-${permission}`}>
-          <input type="checkbox" />
-        </label>
+const UserPermissions = ({
+  user: {
+    id,
+    name,
+    email,
+    permissions,
+  },
+}) => {
+  const [userPermissions, setUserPermissions] = useState([...permissions]);
+
+  return (
+    <tr>
+      <td>{name}</td>
+      <td>{email}</td>
+      {possiblePermissions.map((permission) => (
+        <td key={`${id}-permission-${permission}`}>
+          <label htmlFor={`${id}-permission-${permission}`}>
+            <input
+              id={`${id}-permission-${permission}`}
+              type="checkbox"
+              checked={userPermissions.includes(permission)}
+              value={permission}
+              onChange={(e) => {
+                const checkbox = e.target;
+                let updatedPermissions = [...userPermissions];
+
+                if (checkbox.checked) {
+                  updatedPermissions.push(checkbox.value);
+                } else {
+                  updatedPermissions = updatedPermissions
+                    .filter((updatedPermission) => updatedPermission !== checkbox.value);
+                }
+
+                setUserPermissions(updatedPermissions);
+              }}
+            />
+          </label>
+        </td>
+      ))}
+      <td>
+        <button type="button">Update</button>
       </td>
-    ))}
-    <td>
-      <button type="button">Update</button>
-    </td>
-  </tr>
-);
+    </tr>
+  );
+};
+
+UserPermissions.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.string,
+    permissions: PropTypes.array,
+  }).isRequired,
+};
 
 export default Permissions;
