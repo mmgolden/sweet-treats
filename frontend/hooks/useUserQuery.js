@@ -12,9 +12,6 @@ export const CURRENT_USER_QUERY = gql`
   }
 `;
 
-const useUserQuery = () => {
-  const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
-  return { loading, error, data };
-};
+const useUserQuery = () => useQuery(CURRENT_USER_QUERY);
 
 export default useUserQuery;
