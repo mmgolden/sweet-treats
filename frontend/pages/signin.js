@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
+import RequestReset from '../components/RequestReset';
 
 const SigninPage = () => (
   <Columns>
     <Signup />
     <Signin />
+    <RequestReset />
   </Columns>
 );
 
