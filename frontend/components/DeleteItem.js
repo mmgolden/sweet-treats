@@ -31,7 +31,7 @@ const DeleteItem = ({ children, id }) => {
         if (confirm('Are you sure you want to delete this item?')) { // eslint-disable-line
           deleteItem({
             variables: { id },
-          });
+          }).catch((err) => alert(err.message)); // eslint-disable-line
         }
       }}
     >
