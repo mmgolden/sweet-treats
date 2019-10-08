@@ -6,7 +6,8 @@ import Signout from './Signout';
 import CartCount from './CartCount';
 
 const Nav = () => {
-  const { data = {} } = useUserQuery();
+  const { data } = useUserQuery();
+  const me = data ? data.me : null;
 
   const [toggleCart] = useToggleCart();
 
@@ -15,7 +16,7 @@ const Nav = () => {
       <Link href="/items">
         <a>Shop</a>
       </Link>
-      {data.me ? (
+      {me && (
         <>
           <Link href="/sell">
             <a>Sell</a>
@@ -30,11 +31,12 @@ const Nav = () => {
           <button type="button" onClick={toggleCart}>
             My cart
             <CartCount
-              count={data.me.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)}
+              count={me.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)}
             />
           </button>
         </>
-      ) : (
+      )}
+      {!me && (
         <Link href="/signin">
           <a>Signin</a>
         </Link>
