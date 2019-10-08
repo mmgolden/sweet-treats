@@ -7,32 +7,31 @@ import CartCount from './CartCount';
 
 const Nav = () => {
   const { data = {} } = useUserQuery();
-  const { me = {} } = data;
 
   const [toggleCart] = useToggleCart();
-
-  const count = (me.cart || []).reduce((tally, cartItem) => tally + cartItem.quantity, 0);
 
   return (
     <NavStyles>
       <Link href="/items">
         <a>Shop</a>
       </Link>
-      {me ? (
+      {data.me ? (
         <>
           <Link href="/sell">
             <a>Sell</a>
           </Link>
-          <Link href="/orders">
+          {/* <Link href="/orders">
             <a>Orders</a>
-          </Link>
-          <Link href="/me">
+          </Link> */}
+          {/* <Link href="/me">
             <a>Account</a>
-          </Link>
+          </Link> */}
           <Signout />
           <button type="button" onClick={toggleCart}>
             My cart
-            <CartCount count={count} />
+            <CartCount
+              count={data.me.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)}
+            />
           </button>
         </>
       ) : (
