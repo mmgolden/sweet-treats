@@ -15,6 +15,7 @@ const RequestReset = () => {
         requestReset({
           variables: { email },
         });
+        setEmail('');
       }}
       error={error}
       loading={loading}

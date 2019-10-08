@@ -28,6 +28,7 @@ const Signup = () => {
         signup({
           variables: { ...state },
         });
+        dispatch({ type: 'reset', payload: initialState });
       }}
       error={error}
       loading={loading}

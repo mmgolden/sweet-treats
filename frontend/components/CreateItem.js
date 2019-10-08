@@ -63,6 +63,7 @@ const CreateItem = () => {
         createItem({
           variables: { ...variables },
         });
+        dispatch({ type: 'reset', payload: initialState });
       }}
       error={error}
       loading={loading}
