@@ -59,7 +59,7 @@ CartItem.propTypes = {
       image: PropTypes.string,
       title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
   }),
 };
 
