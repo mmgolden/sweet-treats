@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/melinda-golden-2800ef/sweet-treats/dev
-# timestamp: Mon Oct 07 2019 17:09:08 GMT-0400 (Eastern Daylight Time)
+# timestamp: Mon Oct 07 2019 19:57:43 GMT-0400 (Eastern Daylight Time)
 
 type AggregateCartItem {
   count: Int!
@@ -843,8 +843,8 @@ type User implements Node {
   password: String!
   resetToken: String
   resetTokenExpiry: Float
-  permissions: [Permission!]!
   cart(where: CartItemWhereInput, orderBy: CartItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CartItem!]
+  permissions: [Permission!]!
 }
 
 """A connection to a list of items."""
