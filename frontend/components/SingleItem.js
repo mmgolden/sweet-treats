@@ -1,20 +1,7 @@
-import gql from 'graphql-tag';
 import Head from 'next/head';
 import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
-
-export const SINGLE_ITEM_QUERY = gql`
-  query SINGLE_ITEM_QUERY($id: ID!) {
-    item(where: { id: $id }) {
-      id
-      title
-      description
-      price
-      image
-      largeImage
-    }
-  }
-`;
+import SINGLE_ITEM_QUERY from '../graphql/queries/singleItem';
 
 const SingleItem = ({ id }) => {
   const { loading, error, data } = useQuery(

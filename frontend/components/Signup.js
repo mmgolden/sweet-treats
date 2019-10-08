@@ -1,19 +1,9 @@
 import { useReducer } from 'react';
-import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import SignupForm from './SignupForm';
-import { CURRENT_USER_QUERY } from '../hooks/useUserQuery';
+import CURRENT_USER_QUERY from '../graphql/queries/currentUser';
 import reducer from '../lib/reducer';
-
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-    signup(email: $email, name: $name, password: $password) {
-      id
-      email
-      name
-    }
-  }
-`;
+import SIGNUP_MUTATION from '../graphql/mutations/signUp';
 
 const Signup = () => {
   const initialState = {

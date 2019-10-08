@@ -1,20 +1,10 @@
 import { useReducer } from 'react';
-import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
 import reducer from '../lib/reducer';
 import ResetForm from './ResetForm';
-import { CURRENT_USER_QUERY } from '../hooks/useUserQuery';
-
-const RESET_MUTATION = gql`
-  mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
-    resetPassword(resetToken: $resetToken, password: $password, confirmPassword: $confirmPassword) {
-      id
-      email
-      name
-    }
-  }
-`;
+import CURRENT_USER_QUERY from '../graphql/queries/currentUser';
+import RESET_MUTATION from '../graphql/mutations/reset';
 
 const Reset = ({ resetToken }) => {
   const initialState = {

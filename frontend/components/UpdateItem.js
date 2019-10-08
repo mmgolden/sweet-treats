@@ -1,31 +1,10 @@
 import { useReducer } from 'react';
-import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import removeEmptyStrings from '../lib/removeEmptyStrings';
 import UpdateItemForm from './UpdateItemForm';
-import { SINGLE_ITEM_QUERY } from './SingleItem';
+import SINGLE_ITEM_QUERY from '../graphql/queries/singleItem';
 import reducer from '../lib/reducer';
-
-export const UPDATE_ITEM_MUTATION = gql`
-  mutation UPDATE_ITEM_MUTATION(
-    $id: ID!
-    $title: String
-    $price: Int
-    $description: String
-  ) {
-    updateItem(
-      id: $id
-      title: $title
-      price: $price
-      description: $description
-    ) {
-      id
-      title
-      price
-      description
-    }
-  }
-`;
+import UPDATE_ITEM_MUTATION from '../graphql/mutations/updateItem';
 
 const UpdateItem = ({ id }) => {
   const initialState = {

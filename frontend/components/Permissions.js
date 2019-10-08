@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
 import Table from './styles/Table';
+import UPDATE_PERMISSIONS_MUTATION from '../graphql/mutations/updatePermissions';
+import ALL_USERS_QUERY from '../graphql/queries/allUsers';
 
 const possiblePermissions = [
   'ADMIN',
@@ -13,28 +14,6 @@ const possiblePermissions = [
   'ITEMDELETE',
   'PERMISSIONUPDATE',
 ];
-
-const UPDATE_PERMISSIONS_MUTATION = gql`
-  mutation UPDATE_PERMISSIONS_MUTATION($permissions: [Permission], $userId: ID!) {
-    updatePermissions(permissions: $permissions, userId: $userId) {
-      id
-      permissions
-      name
-      email
-    }
-  }
-`;
-
-const ALL_USERS_QUERY = gql`
-  query ALL_USERS_QUERY {
-    users {
-      id
-      name
-      email
-      permissions
-    }
-  }
-`;
 
 const Permissions = () => {
   const { loading, error, data } = useQuery(ALL_USERS_QUERY);

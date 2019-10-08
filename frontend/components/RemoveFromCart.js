@@ -1,16 +1,8 @@
-import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
-import { CURRENT_USER_QUERY } from '../hooks/useUserQuery';
-
-const REMOVE_FROM_CART_MUTATION = gql`
-  mutation REMOVE_FROM_CART_MUTATION($id: ID!) {
-    removeFromCart(id: $id) {
-      id
-    }
-  }
-`;
+import CURRENT_USER_QUERY from '../graphql/queries/currentUser';
+import REMOVE_FROM_CART_MUTATION from '../graphql/mutations/removeFromCart';
 
 const RemoveFromCart = ({ id }) => {
   const [removeFromCart, { loading }] = useMutation(

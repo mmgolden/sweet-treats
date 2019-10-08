@@ -1,4 +1,3 @@
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import CartStyles from './styles/CartStyles';
 import CloseButton from './styles/CloseButton';
@@ -7,12 +6,7 @@ import useUserQuery from '../hooks/useUserQuery';
 import CartItem from './CartItem';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import formatMoney from '../lib/formatMoney';
-
-export const LOCAL_STATE_QUERY = gql`
-  query LOCAL_STATE_QUERY {
-    cartOpen @client
-  }
-`;
+import LOCAL_STATE_QUERY from '../graphql/queries/localState';
 
 const Cart = () => {
   const [toggleCart] = useToggleCart();

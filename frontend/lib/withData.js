@@ -1,7 +1,7 @@
 import withApollo from 'next-with-apollo';
 import ApolloClient from 'apollo-boost';
 import { endpoint } from '../config';
-import { LOCAL_STATE_QUERY } from '../components/Cart';
+import LOCAL_STATE_QUERY from '../graphql/queries/localState';
 
 function createClient({ headers }) {
   return new ApolloClient({

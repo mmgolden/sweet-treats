@@ -1,30 +1,10 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import Item from './Item';
 import Pagination from './Pagination';
 import { perPage } from '../config';
-
-export const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY(
-    $skip: Int = 0
-    $first: Int = ${perPage}
-  ) {
-    items(
-      skip: $skip
-      first: $first
-      orderBy: createdAt_DESC
-    ) {
-      id
-      title
-      price
-      description
-      image
-      largeImage
-    }
-  }
-`;
+import ALL_ITEMS_QUERY from '../graphql/queries/allItems';
 
 const Items = ({ page }) => {
   const { loading, error, data } = useQuery(

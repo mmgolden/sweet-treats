@@ -1,29 +1,9 @@
 import { useReducer } from 'react';
 import Router from 'next/router';
-import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import CreateItemForm from './CreateItemForm';
 import reducer from '../lib/reducer';
-
-export const CREATE_ITEM_MUTATON = gql`
-  mutation CREATE_ITEM_MUTATON(
-    $title: String!
-    $price: Int!
-    $description: String!
-    $image: String
-    $largeImage: String
-  ) {
-    createItem(
-      title: $title
-      price: $price
-      description: $description
-      image: $image
-      largeImage: $largeImage
-    ) {
-      id
-    }
-  }
-`;
+import CREATE_ITEM_MUTATON from '../graphql/mutations/createItem';
 
 const uploadFile = async (e) => {
   const { files } = e.target;
