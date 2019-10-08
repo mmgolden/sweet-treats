@@ -57,6 +57,8 @@ const BigButton = styled.button`
   font-size: 3rem;
   background: none;
   border: 0;
+  width: 40px;
+  margin-left: auto;
   &:hover {
     color: ${(props) => props.theme.primaryColor};
     cursor: pointer;

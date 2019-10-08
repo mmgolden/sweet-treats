@@ -10,7 +10,7 @@ const CartItem = ({ cartItem }) => {
   if (!item) {
     return (
       <CartItemStyles>
-        <p>This Item has been removed</p>
+        <p>This item has been removed</p>
         <RemoveFromCart id={cartItem.id} />
       </CartItemStyles>
     );
