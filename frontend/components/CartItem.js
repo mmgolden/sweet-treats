@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import formatMoney from '../lib/formatMoney';
+import RemoveFromCart from './RemoveFromCart';
 
 const CartItem = ({ cartItem }) => {
   const { item, quantity } = cartItem;
@@ -10,7 +11,7 @@ const CartItem = ({ cartItem }) => {
     return (
       <CartItemStyles>
         <p>This Item has been removed</p>
-        {/* <RemoveFromCart id={cartItem.id} /> */}
+        <RemoveFromCart id={cartItem.id} />
       </CartItemStyles>
     );
   }
@@ -28,7 +29,7 @@ const CartItem = ({ cartItem }) => {
           <em>{`${quantity} x ${formatMoney(price)} each`}</em>
         </p>
       </div>
-      {/* <RemoveFromCart id={cartItem.id} /> */}
+      <RemoveFromCart id={cartItem.id} />
     </CartItemStyles>
   );
 };
@@ -51,10 +52,10 @@ const CartItemStyles = styled.li`
 CartItem.propTypes = {
   cartItem: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    quantity: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
     item: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      price: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
       image: PropTypes.string,
       title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,

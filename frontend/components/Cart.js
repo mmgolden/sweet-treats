@@ -30,7 +30,7 @@ const Cart = () => {
       <header>
         <CloseButton title="close" onClick={toggleCart}>&times;</CloseButton>
         <h2>Your cart</h2>
-        <p>{`You have ${length} item${length > 1 ? 's' : ''} in your cart.`}</p>
+        <p>{`You have ${length} item${length === 1 ? '' : 's'} in your cart.`}</p>
       </header>
       <ul>
         {cart.map((cartItem) => <CartItem key={cartItem.id} cartItem={cartItem} />)}
