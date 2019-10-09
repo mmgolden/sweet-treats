@@ -1,10 +1,17 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/react-hooks';
 import formatMoney from '../lib/formatMoney';
 import RemoveFromCart from './RemoveFromCart';
+import UPDATE_CART_ITEM_MUTATION from '../graphql/mutations/updateCartItem';
+import Select from './Select';
+
+const quantityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const CartItem = ({ cartItem }) => {
-  const { item, quantity } = cartItem;
+  const { id, item, quantity } = cartItem;
+
+  const [updateCartItem] = useMutation(UPDATE_CART_ITEM_MUTATION);
 
   // first check if that item exists
   if (!item) {
@@ -20,16 +27,27 @@ const CartItem = ({ cartItem }) => {
 
   return (
     <CartItemStyles>
-      <img width="100" src={image} alt={title} />
       <div className="cart-item-details">
+        <img width="100" src={image} alt={title} />
         <h3>{title}</h3>
-        <p>
-          {formatMoney(price * quantity)}
-          {' - '}
-          <em>{`${quantity} x ${formatMoney(price)} each`}</em>
-        </p>
+        <Select
+          name="quantitySelect"
+          defaultValue={quantity}
+          options={quantityOptions}
+          handleChange={(e) => {
+            updateCartItem({
+              variables: {
+                id,
+                quantity: e.target.value,
+              },
+            });
+          }}
+        />
+        <p>{formatMoney(price * quantity)}</p>
       </div>
-      <RemoveFromCart id={cartItem.id} />
+      <div className="cart-actions">
+        <RemoveFromCart id={cartItem.id} />
+      </div>
     </CartItemStyles>
   );
 };
@@ -37,15 +55,34 @@ const CartItem = ({ cartItem }) => {
 const CartItemStyles = styled.li`
   padding: 1rem 0;
   border-bottom: 1px solid ${(props) => props.theme.lightgrey};
-  display: grid;
-  align-items: center;
-  grid-template-columns: auto 1fr auto;
   img {
     margin-right: 10px;
   }
   h3,
   p {
     margin: 0;
+    padding-right: 12px;
+  }
+  select {
+    background: white;
+    font-size: 1.5rem;
+    border: 1px solid ${(props) => props.theme.black};
+    border-radius: 4px;
+    padding: 10px;
+    color: ${(props) => props.theme.black};
+    &:focus {
+      border: 1px solid ${(props) => props.theme.primaryColor};
+      outline: 0px;
+    }
+  }
+  .cart-item-details {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 2fr 1fr auto;
+  }
+  .cart-actions {
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 

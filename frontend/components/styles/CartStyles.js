@@ -40,14 +40,6 @@ const CartStyles = styled.div`
     list-style: none;
     overflow-y: auto;
   }
-  button {
-    background: ${(props) => props.theme.primaryColor};
-    border: 1px solid ${(props) => props.theme.primaryColor};
-    padding: 8px 12px;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-  }
 `;
 
 export default CartStyles;

@@ -31,8 +31,8 @@ const RemoveFromCart = ({ id }) => {
   );
 
   return (
-    <BigButton
-      title="Delete item"
+    <GhostButton
+      title="Remove"
       disabled={loading}
       onClick={() => {
         removeFromCart({
@@ -40,19 +40,19 @@ const RemoveFromCart = ({ id }) => {
         }).catch((err) => alert(err.message)); // eslint-disable-line
       }}
     >
-      &times;
-    </BigButton>
+      Remove
+    </GhostButton>
   );
 };
 
-const BigButton = styled.button`
-  font-size: 3rem;
-  background: none;
-  border: 0;
-  width: 40px;
-  margin-left: auto;
+const GhostButton = styled.button`
+  background: transparent;
+  border: none;
+  color: ${(props) => props.theme.black};
+  font-size: 1.5rem;
+  padding: 10px 12px;
+  font-weight: bold;
   &:hover {
-    color: ${(props) => props.theme.primaryColor};
     cursor: pointer;
   }
 `;

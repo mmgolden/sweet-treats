@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
+import CheckoutButton from './styles/CheckoutButton';
 import CartStyles from './styles/CartStyles';
 import CloseButton from './styles/CloseButton';
 import useToggleCart from '../hooks/useToggleCart';
@@ -31,7 +32,7 @@ const Cart = () => {
       </ul>
       <footer>
         <p>{formatMoney(calcTotalPrice(cart))}</p>
-        <button type="button">Checkout</button>
+        <CheckoutButton type="button">Checkout</CheckoutButton>
       </footer>
     </CartStyles>
   );
