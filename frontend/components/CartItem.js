@@ -37,17 +37,18 @@ const CartItem = ({ cartItem }) => {
           defaultValue={quantity}
           options={quantityOptions}
           handleChange={(e) => {
+            const inputQuantity = parseFloat(e.target.value);
             updateCartItem({
               variables: {
                 id,
-                quantity: parseFloat(e.target.value),
+                quantity: inputQuantity,
               },
               optimisticResponse: {
                 __typename: 'Mutation',
                 updateCartItem: {
                   __typename: 'CartItem',
                   id,
-                  quantity: parseFloat(e.target.value),
+                  quantity: inputQuantity,
                   item: {
                     __typename: 'Item',
                     ...item,
@@ -80,18 +81,6 @@ const CartItemStyles = styled.li`
   p {
     margin: 0;
     padding-right: 12px;
-  }
-  select {
-    background: white;
-    font-size: 1.5rem;
-    border: 1px solid ${(props) => props.theme.black};
-    border-radius: 4px;
-    padding: 10px;
-    color: ${(props) => props.theme.black};
-    &:focus {
-      border: 1px solid ${(props) => props.theme.primaryColor};
-      outline: 0px;
-    }
   }
   .cart-item-details {
     display: grid;
