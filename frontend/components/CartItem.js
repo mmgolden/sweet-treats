@@ -13,27 +13,7 @@ const CartItem = ({ cartItem }) => {
     id, quantity, item, user,
   } = cartItem;
 
-  const [updateCartItem] = useMutation(
-    UPDATE_CART_ITEM_MUTATION,
-    {
-      optimisticResponse: {
-        __typename: 'Mutation',
-        updateCartItem: {
-          __typename: 'CartItem',
-          id,
-          quantity,
-          item: {
-            __typename: 'Item',
-            id: item.id,
-          },
-          user: {
-            __typename: 'User',
-            id: user.id,
-          },
-        },
-      },
-    },
-  );
+  const [updateCartItem] = useMutation(UPDATE_CART_ITEM_MUTATION);
 
   // first check if that item exists
   if (!item) {
@@ -60,7 +40,23 @@ const CartItem = ({ cartItem }) => {
             updateCartItem({
               variables: {
                 id,
-                quantity: e.target.value,
+                quantity: parseFloat(e.target.value),
+              },
+              optimisticResponse: {
+                __typename: 'Mutation',
+                updateCartItem: {
+                  __typename: 'CartItem',
+                  id,
+                  quantity: parseFloat(e.target.value),
+                  item: {
+                    __typename: 'Item',
+                    ...item,
+                  },
+                  user: {
+                    __typename: 'User',
+                    ...user,
+                  },
+                },
               },
             });
           }}
