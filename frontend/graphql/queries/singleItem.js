@@ -9,6 +9,10 @@ const SINGLE_ITEM_QUERY = gql`
       price
       image
       largeImage
+      ratings {
+        id
+        rating
+      }
     }
   }
 `;
