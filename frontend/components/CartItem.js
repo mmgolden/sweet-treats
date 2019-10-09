@@ -26,6 +26,7 @@ const CartItem = ({ cartItem }) => {
   }
 
   const { image, title, price } = item;
+  const total = formatMoney(price * quantity);
 
   return (
     <CartItemStyles>
@@ -62,7 +63,7 @@ const CartItem = ({ cartItem }) => {
             });
           }}
         />
-        <p>{formatMoney(price * quantity)}</p>
+        <p>{total}</p>
       </div>
       <div className="cart-actions">
         <RemoveFromCart id={cartItem.id} />

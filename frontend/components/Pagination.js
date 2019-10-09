@@ -6,7 +6,7 @@ import { perPage } from '../config';
 import PAGINATION_QUERY from '../graphql/queries/pagination';
 
 const Pagination = ({ page }) => {
-  const { loading, error, data } = useQuery(PAGINATION_QUERY);
+  const { loading, data } = useQuery(PAGINATION_QUERY);
 
   if (loading) return 'Loading...';
 
