@@ -28,11 +28,19 @@ type Item {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   user: User!
+  ratings: [Rating!]!
 }
 
 type CartItem {
   id: ID! @id
   quantity: Int! @default(value: 1)
+  item: Item
+  user: User!
+}
+
+type Rating {
+  id: ID! @id
+  rating: Int!
   item: Item
   user: User!
 }

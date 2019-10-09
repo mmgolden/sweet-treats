@@ -1,11 +1,15 @@
 # source: https://us1.prisma.sh/melinda-golden-2800ef/sweet-treats/dev
-# timestamp: Tue Oct 08 2019 11:06:27 GMT-0400 (Eastern Daylight Time)
+# timestamp: Wed Oct 09 2019 15:20:16 GMT-0400 (Eastern Daylight Time)
 
 type AggregateCartItem {
   count: Int!
 }
 
 type AggregateItem {
+  count: Int!
+}
+
+type AggregateRating {
   count: Int!
 }
 
@@ -324,6 +328,7 @@ type Item implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
+  ratings(where: RatingWhereInput, orderBy: RatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Rating!]
 }
 
 """A connection to a list of items."""
@@ -344,11 +349,27 @@ input ItemCreateInput {
   largeImage: String
   price: Int!
   user: UserCreateOneInput!
+  ratings: RatingCreateManyWithoutItemInput
 }
 
 input ItemCreateOneInput {
   create: ItemCreateInput
   connect: ItemWhereUniqueInput
+}
+
+input ItemCreateOneWithoutRatingsInput {
+  create: ItemCreateWithoutRatingsInput
+  connect: ItemWhereUniqueInput
+}
+
+input ItemCreateWithoutRatingsInput {
+  id: ID
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
+  price: Int!
+  user: UserCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -436,6 +457,7 @@ input ItemUpdateDataInput {
   largeImage: String
   price: Int
   user: UserUpdateOneRequiredInput
+  ratings: RatingUpdateManyWithoutItemInput
 }
 
 input ItemUpdateInput {
@@ -445,6 +467,7 @@ input ItemUpdateInput {
   largeImage: String
   price: Int
   user: UserUpdateOneRequiredInput
+  ratings: RatingUpdateManyWithoutItemInput
 }
 
 input ItemUpdateManyMutationInput {
@@ -464,9 +487,32 @@ input ItemUpdateOneInput {
   upsert: ItemUpsertNestedInput
 }
 
+input ItemUpdateOneWithoutRatingsInput {
+  create: ItemCreateWithoutRatingsInput
+  connect: ItemWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: ItemUpdateWithoutRatingsDataInput
+  upsert: ItemUpsertWithoutRatingsInput
+}
+
+input ItemUpdateWithoutRatingsDataInput {
+  title: String
+  description: String
+  image: String
+  largeImage: String
+  price: Int
+  user: UserUpdateOneRequiredInput
+}
+
 input ItemUpsertNestedInput {
   update: ItemUpdateDataInput!
   create: ItemCreateInput!
+}
+
+input ItemUpsertWithoutRatingsInput {
+  update: ItemUpdateWithoutRatingsDataInput!
+  create: ItemCreateWithoutRatingsInput!
 }
 
 input ItemWhereInput {
@@ -745,6 +791,9 @@ input ItemWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   user: UserWhereInput
+  ratings_every: RatingWhereInput
+  ratings_some: RatingWhereInput
+  ratings_none: RatingWhereInput
 }
 
 input ItemWhereUniqueInput {
@@ -759,21 +808,27 @@ scalar Long
 
 type Mutation {
   createCartItem(data: CartItemCreateInput!): CartItem!
+  createRating(data: RatingCreateInput!): Rating!
   createItem(data: ItemCreateInput!): Item!
   createUser(data: UserCreateInput!): User!
   updateCartItem(data: CartItemUpdateInput!, where: CartItemWhereUniqueInput!): CartItem
+  updateRating(data: RatingUpdateInput!, where: RatingWhereUniqueInput!): Rating
   updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteRating(where: RatingWhereUniqueInput!): Rating
   deleteItem(where: ItemWhereUniqueInput!): Item
   deleteUser(where: UserWhereUniqueInput!): User
   upsertCartItem(where: CartItemWhereUniqueInput!, create: CartItemCreateInput!, update: CartItemUpdateInput!): CartItem!
+  upsertRating(where: RatingWhereUniqueInput!, create: RatingCreateInput!, update: RatingUpdateInput!): Rating!
   upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyCartItems(data: CartItemUpdateManyMutationInput!, where: CartItemWhereInput): BatchPayload!
+  updateManyRatings(data: RatingUpdateManyMutationInput!, where: RatingWhereInput): BatchPayload!
   updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyCartItems(where: CartItemWhereInput): BatchPayload!
+  deleteManyRatings(where: RatingWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
@@ -816,12 +871,15 @@ enum Permission {
 
 type Query {
   cartItems(where: CartItemWhereInput, orderBy: CartItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CartItem]!
+  ratings(where: RatingWhereInput, orderBy: RatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Rating]!
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   cartItem(where: CartItemWhereUniqueInput!): CartItem
+  rating(where: RatingWhereUniqueInput!): Rating
   item(where: ItemWhereUniqueInput!): Item
   user(where: UserWhereUniqueInput!): User
   cartItemsConnection(where: CartItemWhereInput, orderBy: CartItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CartItemConnection!
+  ratingsConnection(where: RatingWhereInput, orderBy: RatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RatingConnection!
   itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
@@ -832,8 +890,303 @@ type Query {
   ): Node
 }
 
+type Rating implements Node {
+  id: ID!
+  rating: Int!
+  item: Item
+  user: User!
+}
+
+"""A connection to a list of items."""
+type RatingConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [RatingEdge]!
+  aggregate: AggregateRating!
+}
+
+input RatingCreateInput {
+  id: ID
+  rating: Int!
+  item: ItemCreateOneWithoutRatingsInput
+  user: UserCreateOneInput!
+}
+
+input RatingCreateManyWithoutItemInput {
+  create: [RatingCreateWithoutItemInput!]
+  connect: [RatingWhereUniqueInput!]
+}
+
+input RatingCreateWithoutItemInput {
+  id: ID
+  rating: Int!
+  user: UserCreateOneInput!
+}
+
+"""An edge in a connection."""
+type RatingEdge {
+  """The item at the end of the edge."""
+  node: Rating!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum RatingOrderByInput {
+  id_ASC
+  id_DESC
+  rating_ASC
+  rating_DESC
+}
+
+type RatingPreviousValues {
+  id: ID!
+  rating: Int!
+}
+
+input RatingScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [RatingScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [RatingScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [RatingScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  rating: Int
+
+  """All values that are not equal to given value."""
+  rating_not: Int
+
+  """All values that are contained in given list."""
+  rating_in: [Int!]
+
+  """All values that are not contained in given list."""
+  rating_not_in: [Int!]
+
+  """All values less than the given value."""
+  rating_lt: Int
+
+  """All values less than or equal the given value."""
+  rating_lte: Int
+
+  """All values greater than the given value."""
+  rating_gt: Int
+
+  """All values greater than or equal the given value."""
+  rating_gte: Int
+}
+
+type RatingSubscriptionPayload {
+  mutation: MutationType!
+  node: Rating
+  updatedFields: [String!]
+  previousValues: RatingPreviousValues
+}
+
+input RatingSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [RatingSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [RatingSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [RatingSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: RatingWhereInput
+}
+
+input RatingUpdateInput {
+  rating: Int
+  item: ItemUpdateOneWithoutRatingsInput
+  user: UserUpdateOneRequiredInput
+}
+
+input RatingUpdateManyDataInput {
+  rating: Int
+}
+
+input RatingUpdateManyMutationInput {
+  rating: Int
+}
+
+input RatingUpdateManyWithoutItemInput {
+  create: [RatingCreateWithoutItemInput!]
+  connect: [RatingWhereUniqueInput!]
+  set: [RatingWhereUniqueInput!]
+  disconnect: [RatingWhereUniqueInput!]
+  delete: [RatingWhereUniqueInput!]
+  update: [RatingUpdateWithWhereUniqueWithoutItemInput!]
+  updateMany: [RatingUpdateManyWithWhereNestedInput!]
+  deleteMany: [RatingScalarWhereInput!]
+  upsert: [RatingUpsertWithWhereUniqueWithoutItemInput!]
+}
+
+input RatingUpdateManyWithWhereNestedInput {
+  where: RatingScalarWhereInput!
+  data: RatingUpdateManyDataInput!
+}
+
+input RatingUpdateWithoutItemDataInput {
+  rating: Int
+  user: UserUpdateOneRequiredInput
+}
+
+input RatingUpdateWithWhereUniqueWithoutItemInput {
+  where: RatingWhereUniqueInput!
+  data: RatingUpdateWithoutItemDataInput!
+}
+
+input RatingUpsertWithWhereUniqueWithoutItemInput {
+  where: RatingWhereUniqueInput!
+  update: RatingUpdateWithoutItemDataInput!
+  create: RatingCreateWithoutItemInput!
+}
+
+input RatingWhereInput {
+  """Logical AND on all given filters."""
+  AND: [RatingWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [RatingWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [RatingWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  rating: Int
+
+  """All values that are not equal to given value."""
+  rating_not: Int
+
+  """All values that are contained in given list."""
+  rating_in: [Int!]
+
+  """All values that are not contained in given list."""
+  rating_not_in: [Int!]
+
+  """All values less than the given value."""
+  rating_lt: Int
+
+  """All values less than or equal the given value."""
+  rating_lte: Int
+
+  """All values greater than the given value."""
+  rating_gt: Int
+
+  """All values greater than or equal the given value."""
+  rating_gte: Int
+  item: ItemWhereInput
+  user: UserWhereInput
+}
+
+input RatingWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   cartItem(where: CartItemSubscriptionWhereInput): CartItemSubscriptionPayload
+  rating(where: RatingSubscriptionWhereInput): RatingSubscriptionPayload
   item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

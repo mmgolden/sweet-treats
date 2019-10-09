@@ -257,6 +257,46 @@ const mutations = {
       where: { id: args.id },
     }, info);
   },
+  async createRating(parent, args, ctx, info) {
+    // Make sure they are signed in
+    const { userId } = ctx.request;
+    if (!userId) throw new Error('You must be signed in');
+
+    // check if they already rated the item
+    const [existingRating] = await ctx.db.query.ratings({
+      where: {
+        user: { id: userId },
+        item: { id: args.id },
+      },
+    });
+
+    if (existingRating) {
+      console.log('They already rated this item');
+      return ctx.db.mutation.updateRating(
+        {
+          where: { id: existingRating.id },
+          data: { rating: args.rating },
+        },
+        info,
+      );
+    }
+
+    // If they haven't rated the item, add the rating
+    return ctx.db.mutation.createRating(
+      {
+        data: {
+          rating: args.rating,
+          user: {
+            connect: { id: userId },
+          },
+          item: {
+            connect: { id: args.id },
+          },
+        },
+      },
+      info,
+    );
+  },
 };
 
 module.exports = mutations;

@@ -17,6 +17,7 @@ type Mutation {
   addToCart(id: ID!): CartItem
   removeFromCart(id: ID!): CartItem
   updateCartItem(id: ID!, quantity: Int!): CartItem
+  createRating(id: ID!, rating: Int!): Rating!
 }
 
 type Query {
