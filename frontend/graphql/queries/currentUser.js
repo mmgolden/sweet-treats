@@ -17,6 +17,9 @@ const CURRENT_USER_QUERY = gql`
           title
           description
         }
+        user {
+          id
+        }
       }
     }
   }

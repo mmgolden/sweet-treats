@@ -9,9 +9,31 @@ import Select from './Select';
 const quantityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const CartItem = ({ cartItem }) => {
-  const { id, item, quantity } = cartItem;
+  const {
+    id, quantity, item, user,
+  } = cartItem;
 
-  const [updateCartItem] = useMutation(UPDATE_CART_ITEM_MUTATION);
+  const [updateCartItem] = useMutation(
+    UPDATE_CART_ITEM_MUTATION,
+    {
+      optimisticResponse: {
+        __typename: 'Mutation',
+        updateCartItem: {
+          __typename: 'CartItem',
+          id,
+          quantity,
+          item: {
+            __typename: 'Item',
+            id: item.id,
+          },
+          user: {
+            __typename: 'User',
+            id: user.id,
+          },
+        },
+      },
+    },
+  );
 
   // first check if that item exists
   if (!item) {
