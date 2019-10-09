@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import Select from './Select';
 import CREATE_RATING_MUTATION from '../graphql/mutations/createRating';
+import getRatingAverage from '../lib/getRatingAverage';
 
 const ratingOptions = [1, 2, 3, 4, 5];
 
@@ -11,8 +12,7 @@ const Rating = ({
 }) => {
   const [createRating] = useMutation(CREATE_RATING_MUTATION);
 
-  const ratingTotal = ratings.reduce((total, { rating }) => total + rating, 0);
-  const ratingAverage = (ratingTotal / ratings.length).toFixed(2);
+  const ratingAverage = getRatingAverage(ratings);
 
   return (
     <RatingStyles>
