@@ -249,6 +249,14 @@ const mutations = {
     // 3. Delete that cart item
     return ctx.db.mutation.deleteCartItem({ where }, info);
   },
+  updateCartItem(parent, args, ctx, info) {
+    const updates = { ...args };
+    delete updates.id;
+    return ctx.db.mutation.updateCartItem({
+      data: { ...updates },
+      where: { id: args.id },
+    }, info);
+  },
 };
 
 module.exports = mutations;
