@@ -46,7 +46,7 @@ const AutoComplete = () => {
                 <input
                   {...getInputProps({
                     type: 'search',
-                    placeholder: 'Search for an item',
+                    placeholder: 'Search for an item...',
                     id: 'search',
                     className: loading ? 'loading' : '',
                     onChange: (e) => {
