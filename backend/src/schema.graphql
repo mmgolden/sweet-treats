@@ -18,6 +18,7 @@ type Mutation {
   removeFromCart(id: ID!): CartItem
   updateCartItem(id: ID!, quantity: Int!): CartItem
   createRating(id: ID!, rating: Int!): Rating!
+  createOrder(token: String!): Order!
 }
 
 type Query {
