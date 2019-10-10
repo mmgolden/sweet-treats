@@ -8,6 +8,7 @@ import CartItem from './CartItem';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import formatMoney from '../lib/formatMoney';
 import LOCAL_STATE_QUERY from '../graphql/queries/localState';
+import TakeMyMoney from './TakeMyMoney';
 
 const Cart = () => {
   const [toggleCart] = useToggleCart();
@@ -31,7 +32,9 @@ const Cart = () => {
       </ul>
       <footer>
         <p>{formatMoney(calcTotalPrice(cart))}</p>
-        <CheckoutButton type="button">Checkout</CheckoutButton>
+        <TakeMyMoney>
+          <CheckoutButton type="button">Checkout</CheckoutButton>
+        </TakeMyMoney>
       </footer>
     </CartStyles>
   );
