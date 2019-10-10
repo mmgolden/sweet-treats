@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import Error from './ErrorMessage';
 import CURRENT_USER_QUERY from '../graphql/queries/currentUser';
@@ -14,11 +13,18 @@ import CREATE_ORDER_MUTATION from '../graphql/mutations/createOrder';
 const STRIPE_PUBLISHABLE = 'pk_test_bF0XWyR43J5v27XLGJbs2uJe00FalFUhIW';
 
 const onToken = async (res, createOrder) => {
+  NProgress.start();
+
   const order = await createOrder({
     variables: {
       token: res.id,
     },
   }).catch((err) => alert(err.message)); // eslint-disable-line
+
+  Router.push({
+    pathname: '/order',
+    query: { id: order.data.createOrder.id },
+  });
 };
 
 const TakeMyMoney = ({ children }) => {
