@@ -4,6 +4,7 @@ import useUserQuery from '../hooks/useUserQuery';
 import useToggleCart from '../hooks/useToggleCart';
 import Signout from './Signout';
 import CartCount from './CartCount';
+import getTotalItems from '../lib/getTotalItems';
 
 const Nav = () => {
   const { data } = useUserQuery();
@@ -30,9 +31,7 @@ const Nav = () => {
           <Signout />
           <button type="button" onClick={toggleCart}>
             My cart
-            <CartCount
-              count={me.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)}
-            />
+            <CartCount count={getTotalItems(me.cart)} />
           </button>
         </>
       )}
