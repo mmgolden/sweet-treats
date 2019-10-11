@@ -30,6 +30,9 @@ const CartStyles = styled.div`
     align-items: center;
     font-size: 3rem;
     font-weight: 900;
+    span {
+      text-align: right;
+    }
     p {
       margin: 0;
     }
