@@ -1,10 +1,9 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
-import { render, cleanup } from '@testing-library/react';
-import { MockedProvider } from '@apollo/react-testing';
 import ItemComponent from '../components/Item';
 import theme from '../components/styles/theme';
-import CREATE_RATING_MUTATION from '../graphql/mutations/createRating';
+import { ApolloMockedProvider } from '../test-utils/providers';
 
 const fakeItem = {
   id: '12345',
@@ -16,26 +15,13 @@ const fakeItem = {
   ratings: [5],
 };
 
-const mocks = [
-  {
-    request: {
-      query: CREATE_RATING_MUTATION,
-      variables: {
-        id: fakeItem.id,
-        rating: 5,
-      },
-    },
-    result: { data: { createRating: { id: '5678', rating: 5 } } },
-  },
-];
-
-test('<Item />', () => {
+test('<Item />', async () => {
   const wrapper = render(
-    <MockedProvider mocks={mocks} addTypename={false}>
+    <ApolloMockedProvider>
       <ThemeProvider theme={theme}>
         <ItemComponent item={fakeItem} />
       </ThemeProvider>
-    </MockedProvider>,
+    </ApolloMockedProvider>,
   );
   wrapper.debug();
 });
