@@ -34,15 +34,17 @@ const Item = ({ item }) => {
       <PriceTag>{formatMoney(price)}</PriceTag>
       <Rating itemId={id} ratings={ratings} />
       <div className="buttonList">
-        <Link href={{
-          pathname: '/update',
-          query: { id },
-        }}
+        <Link
+          href={{
+            pathname: '/update',
+            query: { id },
+          }}
+          data-testid="editButton"
         >
           <a>Edit</a>
         </Link>
-        <AddToCart id={id} />
-        <DeleteItem id={id}>Delete item</DeleteItem>
+        <AddToCart id={id} data-testid="addToCartButton"/>
+        <DeleteItem id={id} data-testid="deleteButton">Delete item</DeleteItem>
       </div>
     </ItemStyles>
   );

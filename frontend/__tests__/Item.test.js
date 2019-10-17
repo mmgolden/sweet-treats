@@ -5,7 +5,6 @@ import { ThemeProvider } from 'styled-components';
 import ItemComponent from '../components/Item';
 import theme from '../components/styles/theme';
 import { ApolloMockedProvider } from '../test-utils/providers';
-import formatMoney from '../lib/formatMoney';
 
 const fakeItem = {
   id: '12345',
@@ -14,7 +13,7 @@ const fakeItem = {
   description: 'Candy on a stick',
   image: 'lollipop.jpg',
   largeImage: 'largeLollipop.jpg',
-  ratings: [5],
+  ratings: [{ id: '123', rating: 5 }, { id: '456', rating: 2 }],
 };
 
 describe('<Item />', () => {
@@ -26,7 +25,6 @@ describe('<Item />', () => {
         </ThemeProvider>
       </ApolloMockedProvider>,
     );
-    debug();
     const img = queryByAltText(fakeItem.title);
     expect(img).toHaveAttribute('alt', fakeItem.title);
     expect(img).toHaveAttribute('src', fakeItem.image);
@@ -41,9 +39,9 @@ describe('<Item />', () => {
       </ApolloMockedProvider>,
     );
     const title = queryByText(fakeItem.title);
-    expect(title).toHaveTextContent(fakeItem.title);
-    const price = queryByText(formatMoney(fakeItem.price));
-    expect(price).toHaveTextContent(formatMoney(fakeItem.price));
+    expect(title).toBeTruthy;
+    const price = queryByText('$3.00');
+    expect(price).toBeTruthy;
   });
 
   it('renders the rating', () => {
@@ -54,5 +52,23 @@ describe('<Item />', () => {
         </ThemeProvider>
       </ApolloMockedProvider>,
     );
+    const rating = queryByText('Rating', { exact: false });
+    expect(rating).toHaveTextContent('3.50/5');
+  });
+
+  it('renders the buttons', () => {
+    const { queryByTestId } = render(
+      <ApolloMockedProvider>
+        <ThemeProvider theme={theme}>
+          <ItemComponent item={fakeItem} />
+        </ThemeProvider>
+      </ApolloMockedProvider>,
+    );
+    const editButton = queryByTestId('editButton');
+    expect(editButton).toBeTruthy;
+    const addToCartButton = queryByTestId('addToCartButton');
+    expect(addToCartButton).toBeTruthy;
+    const deleteButton = queryByTestId('deleteButton');
+    expect(deleteButton).toBeTruthy;
   });
 });
