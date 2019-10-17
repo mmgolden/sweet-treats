@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect'
 import React from 'react';
-import { render, queryByAltText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import ItemComponent from '../components/Item';
 import theme from '../components/styles/theme';
@@ -18,7 +18,7 @@ const fakeItem = {
 
 describe('<Item />', () => {
   it('renders the image', () => {
-    const { debug, queryByAltText } = render(
+    const { queryByAltText } = render(
       <ApolloMockedProvider>
         <ThemeProvider theme={theme}>
           <ItemComponent item={fakeItem} />
@@ -39,9 +39,9 @@ describe('<Item />', () => {
       </ApolloMockedProvider>,
     );
     const title = queryByText(fakeItem.title);
-    expect(title).toBeTruthy;
+    expect(title).toBeTruthy();
     const price = queryByText('$3.00');
-    expect(price).toBeTruthy;
+    expect(price).toBeTruthy();
   });
 
   it('renders the rating', () => {
@@ -65,10 +65,10 @@ describe('<Item />', () => {
       </ApolloMockedProvider>,
     );
     const editButton = queryByTestId('editButton');
-    expect(editButton).toBeTruthy;
+    expect(editButton).toBeTruthy();
     const addToCartButton = queryByTestId('addToCartButton');
-    expect(addToCartButton).toBeTruthy;
+    expect(addToCartButton).toBeTruthy();
     const deleteButton = queryByTestId('deleteButton');
-    expect(deleteButton).toBeTruthy;
+    expect(deleteButton).toBeTruthy();
   });
 });
