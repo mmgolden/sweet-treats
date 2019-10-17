@@ -41,6 +41,8 @@
     "waait": "^1.0.2"
   },
   "devDependencies": {
+    "@apollo/react-testing": "^3.1.1",
+    "@testing-library/jest-dom": "^4.1.2",
     "@testing-library/react": "^9.3.0",
     "babel-jest": "^23.6.0",
     "babel-plugin-module-resolver": "^3.1.1",
@@ -51,7 +53,11 @@
     "jest-transform-graphql": "^2.1.0"
   },
   "jest": {
-    "setupFilesAfterEnv": "<rootDir>/jest.setup.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js",
+      "@testing-library/react/cleanup-after-each",
+      "@testing-library/jest-dom/extend-expect"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/.next/",
       "<rootDir>/node_modules/"
