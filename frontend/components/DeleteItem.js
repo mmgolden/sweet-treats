@@ -26,6 +26,7 @@ const DeleteItem = ({ children, id }) => {
           }).catch((err) => alert(err.message)); // eslint-disable-line
         }
       }}
+      data-testid="deleteButton"
     >
       {children}
     </button>

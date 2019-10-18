@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
@@ -38,8 +38,10 @@ describe('<Item />', () => {
         </ThemeProvider>
       </ApolloMockedProvider>,
     );
+
     const title = queryByText(fakeItem.title);
     expect(title).toBeTruthy();
+
     const price = queryByText('$3.00');
     expect(price).toBeTruthy();
   });
@@ -64,10 +66,13 @@ describe('<Item />', () => {
         </ThemeProvider>
       </ApolloMockedProvider>,
     );
+
     const editButton = queryByTestId('editButton');
     expect(editButton).toBeTruthy();
+
     const addToCartButton = queryByTestId('addToCartButton');
     expect(addToCartButton).toBeTruthy();
+
     const deleteButton = queryByTestId('deleteButton');
     expect(deleteButton).toBeTruthy();
   });

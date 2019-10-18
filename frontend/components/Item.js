@@ -39,12 +39,11 @@ const Item = ({ item }) => {
             pathname: '/update',
             query: { id },
           }}
-          data-testid="editButton"
         >
-          <a>Edit</a>
+          <a data-testid="editButton">Edit</a>
         </Link>
-        <AddToCart id={id} data-testid="addToCartButton"/>
-        <DeleteItem id={id} data-testid="deleteButton">Delete item</DeleteItem>
+        <AddToCart id={id} />
+        <DeleteItem id={id}>Delete item</DeleteItem>
       </div>
     </ItemStyles>
   );
