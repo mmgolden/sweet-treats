@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Select from './Select';
 import CREATE_RATING_MUTATION from '../graphql/mutations/createRating';
 import getRatingAverage from '../lib/getRatingAverage';
+import ALL_ITEMS_QUERY from '../graphql/queries/allItems';
 
 const ratingOptions = [1, 2, 3, 4, 5];
 
@@ -10,7 +11,12 @@ const Rating = ({
   itemId,
   ratings,
 }) => {
-  const [createRating] = useMutation(CREATE_RATING_MUTATION);
+  const [createRating] = useMutation(
+    CREATE_RATING_MUTATION,
+    {
+      refetchQueries: [{ query: ALL_ITEMS_QUERY }],
+    },
+  );
 
   const ratingAverage = getRatingAverage(ratings);
 
