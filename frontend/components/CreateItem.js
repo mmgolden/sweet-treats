@@ -50,6 +50,7 @@ const CreateItem = () => {
 
   const variables = {
     ...state,
+    price: parseFloat(state.price),
     image: state.file.image,
     largeImage: state.file.largeImage,
   };
@@ -60,9 +61,7 @@ const CreateItem = () => {
     <CreateItemForm
       handleSubmit={(e) => {
         e.preventDefault();
-        createItem({
-          variables: { ...variables },
-        });
+        createItem({ variables });
         dispatch({ type: 'reset', payload: initialState });
       }}
       error={error}
