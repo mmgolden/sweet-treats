@@ -3,6 +3,7 @@ import React from 'react';
 import {
   render, wait, fireEvent,
 } from '@testing-library/react';
+import Router from 'next/router';
 import { ThemeProvider } from 'styled-components';
 import ItemsComponent from '../components/Items';
 import theme from '../components/styles/theme';
@@ -26,10 +27,22 @@ const queryResolvers = {
       ratings: [{ id: 'rat1', rating: 5 }, { id: 'rat2', rating: 2 }],
     },
   ]),
+  itemsConnection: () => ({
+    aggregate: { count: 1 },
+  }),
 };
 
 const mutationResolvers = {
   createRating: jest.fn(() => ({ id: '123', rating: 5 })),
+};
+
+const routerPushed = jest.fn();
+
+Router.router = {
+  push: (path) => {
+    routerPushed(path);
+    return new Promise((resolve, reject) => resolve());
+  },
 };
 
 test('items show loading', async () => {
@@ -178,4 +191,53 @@ test('item renders the buttons', async () => {
 
   const deleteButton = queryByTestId('delete-button');
   expect(deleteButton).toBeTruthy();
+});
+
+test('edit button changes route', async () => {
+  const { queryByTestId } = render(
+    <ApolloMockedProvider
+      customResolvers={{
+        Query: () => queryResolvers,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <ItemsComponent page={page} />
+      </ThemeProvider>
+    </ApolloMockedProvider>,
+  );
+
+  await wait();
+
+  const editButton = queryByTestId('edit-button');
+  fireEvent.click(editButton);
+
+  await wait(() => expect(routerPushed).toHaveBeenCalledWith('/update?id=abc'));
+});
+
+test('items renders pagination', async () => {
+  const { queryByTestId, queryByText } = render(
+    <ApolloMockedProvider
+      customResolvers={{
+        Query: () => queryResolvers,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <ItemsComponent page={page} />
+      </ThemeProvider>
+    </ApolloMockedProvider>,
+  );
+
+  await wait();
+
+  const prevButton = queryByTestId('prev-button');
+  expect(prevButton).toHaveAttribute('href', 'items?page=0');
+
+  const nextButton = queryByTestId('next-button');
+  expect(nextButton).toHaveAttribute('href', 'items?page=2');
+
+  const pageNumber = queryByText(/page/i);
+  expect(pageNumber).toHaveTextContent(/page 1 of 1/i);
+
+  const count = queryByText(/total/i);
+  expect(count).toHaveTextContent(/1 item total/i);
 });
