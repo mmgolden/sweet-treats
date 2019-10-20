@@ -40,7 +40,7 @@ const Item = ({ item }) => {
             query: { id },
           }}
         >
-          <a data-testid="editButton">Edit</a>
+          <a data-testid="edit-button">Edit</a>
         </Link>
         <AddToCart id={id} />
         <DeleteItem id={id}>Delete item</DeleteItem>

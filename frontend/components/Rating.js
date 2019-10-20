@@ -22,7 +22,7 @@ const Rating = ({
 
   return (
     <RatingStyles>
-      <p>{`Rating: ${ratings.length > 0 ? `${ratingAverage}/5` : '0'}`}</p>
+      <p data-testid="rating">{`Rating: ${ratings.length > 0 ? `${ratingAverage}/5` : '0'}`}</p>
       <Select
         name="ratingSelect"
         label="Rate item:"

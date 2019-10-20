@@ -17,7 +17,7 @@ const AddToCart = ({ id }) => {
       onClick={() => {
         addToCart({ variables: { id } });
       }}
-      data-testid="addToCartButton"
+      data-testid="add-to-cart-button"
     >
       Add to cart
     </button>
