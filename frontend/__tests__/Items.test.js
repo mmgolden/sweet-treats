@@ -34,6 +34,7 @@ const queryResolvers = {
 
 const mutationResolvers = {
   createRating: jest.fn(() => ({ id: '123', rating: 5 })),
+  addToCart: jest.fn(() => ({ id: 'abc', quantity: 1 })),
 };
 
 const routerPushed = jest.fn();
@@ -41,7 +42,7 @@ const routerPushed = jest.fn();
 Router.router = {
   push: (path) => {
     routerPushed(path);
-    return new Promise((resolve, reject) => resolve());
+    return new Promise((resolve) => resolve());
   },
 };
 
@@ -97,7 +98,7 @@ test('item renders the image', async () => {
 });
 
 test('item renders details', async () => {
-  const { queryByText } = render(
+  const { queryByText, queryByTestId } = render(
     <ApolloMockedProvider
       customResolvers={{
         Query: () => queryResolvers,
@@ -119,31 +120,9 @@ test('item renders details', async () => {
 
   const price = queryByText('$1.50');
   expect(price).toBeTruthy();
-});
-
-test('item renders the rating', async () => {
-  const {
-    queryByTestId,
-    queryByDisplayValue,
-  } = render(
-    <ApolloMockedProvider
-      customResolvers={{
-        Query: () => queryResolvers,
-      }}
-    >
-      <ThemeProvider theme={theme}>
-        <ItemsComponent page={page} />
-      </ThemeProvider>
-    </ApolloMockedProvider>,
-  );
-
-  await wait();
 
   const rating = queryByTestId('rating');
   expect(rating).toHaveTextContent('3.50/5');
-
-  const select = queryByDisplayValue('5');
-  expect(select).toBeTruthy();
 });
 
 test('creates a rating', async () => {
@@ -212,6 +191,28 @@ test('edit button changes route', async () => {
   fireEvent.click(editButton);
 
   await wait(() => expect(routerPushed).toHaveBeenCalledWith('/update?id=abc'));
+});
+
+test('adds item to cart', async () => {
+  const { queryByTestId } = render(
+    <ApolloMockedProvider
+      customResolvers={{
+        Query: () => queryResolvers,
+        Mutation: () => mutationResolvers,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <ItemsComponent page={page} />
+      </ThemeProvider>
+    </ApolloMockedProvider>,
+  );
+
+  await wait();
+
+  const addToCartButton = queryByTestId('add-to-cart-button');
+  fireEvent.click(addToCartButton);
+
+  await wait(() => expect(mutationResolvers.addToCart).toHaveBeenCalled());
 });
 
 test('items renders pagination', async () => {
